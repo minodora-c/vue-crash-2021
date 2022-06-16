@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracker"/>
-    <Tasks @delete-task2="deleteTask" :tasks="tasks" />
+    <Tasks @toggle-reminder="toggleReminder" @delete-task2="deleteTask" :tasks="tasks"/>
   </div>
 
 </template>
@@ -22,8 +22,29 @@ export default {
     }
   },
   methods: {
-    deleteTask(id, text) {
-      console.log("Task: " + id + " " + text);
+    deleteTask(eventOrIdSameSame) {
+      if (confirm("Are you sure you want to delete the Task?")) {
+        this.tasks = this.tasks.filter((task) =>
+                task.id !== eventOrIdSameSame
+            //  { return task.id !== eventOrIdSameSame }
+        )
+        console.log("Deleted Task: " + eventOrIdSameSame);
+      }
+    },
+    toggleReminder(eventOrIdSameSame) {
+      this.tasks = this.tasks.map((t) => {
+            t.id === eventOrIdSameSame ? t.reminder = !t.reminder : t.reminder
+            return t
+          }
+      )
+
+      // alternative from Video
+      /*
+      this.tasks = this.tasks.map((t) =>
+          t.id === eventOrIdSameSame ? {...t, reminder: !t.reminder} : t
+      )
+      */
+      console.log("Toggle Reminder: " + eventOrIdSameSame);
     }
   },
   created() {

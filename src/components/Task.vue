@@ -1,7 +1,14 @@
 <template>
-  <div :class="[task.reminder ? 'reminder' : '', 'task']">
+  <div @dblclick="$emit('toggle-reminder', task.id)"
+       :class="[task.reminder ? 'reminder' : '', 'task']">
     <h3>{{ task.text }}
+      <i @click="onDelete()" class="fas fa-times"></i>
+
+      <!-- with sending $event a few levels up -->
+      <!--
       <i @click="onDelete(task.id)" class="fas fa-times"></i>
+      -->
+
     </h3>
     <p>{{ task.day }}</p>
   </div>
@@ -15,9 +22,17 @@ export default {
     task: Object
   },
   methods: {
+    // with getting task.id from Tasks
     onDelete() {
       this.$emit("delete-task");
     }
+
+    /*
+    // with sending $event a few levels up
+    onDelete(id) {
+      this.$emit("delete-task", id);
+    }
+    */
   }
 }
 </script>
