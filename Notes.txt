@@ -11,3 +11,9 @@ to run the app locally (make sure you are from C:, if not run C:\Windows\system3
 
 npm i json-server
 creates a json-server with REST-API (https://www.npmjs.com/package/json-server)
+
+json-server --watch db.json --port 5000
+creates a backend on port 5000
+
+http://localhost:5000/tasks
+returns a json-object with all the tasks written in db.json

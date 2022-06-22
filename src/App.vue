@@ -57,9 +57,23 @@ export default {
       )
       */
       console.log("Toggle Reminder: " + eventOrIdSameSame);
+    },
+    async fetchTasks() {
+      const res = await fetch("api/tasks")
+      const data = await res.json()
+      return data
+    },
+    async fetchTask(id) {
+      const res = await fetch(`api/${id}`)
+      const data = await res.json()
+      return data
     }
   },
-  created() {
+  async created() {
+    this.tasks = await this.fetchTasks()
+
+    // beginning: write data in frontend
+    /*
     this.tasks = [
       {
         "id": "1",
@@ -80,6 +94,7 @@ export default {
         "reminder": false
       }
     ]
+     */
   }
 }
 </script>
