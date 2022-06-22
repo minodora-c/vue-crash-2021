@@ -1,0 +1,13 @@
+Shell Commands:
+
+npm run serve
+to run it locally while working on it
+
+npm install -g serve
+to create a dist folder which is the one uploaded onto the production server
+
+serve -s dist
+to run the app locally (make sure you are from C:, if not run C:\Windows\system32\cmd.exe first)
+
+npm i json-server
+creates a json-server with REST-API (https://www.npmjs.com/package/json-server)
