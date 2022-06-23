@@ -23,13 +23,6 @@
       "text": "test",
       "day": "tomowwowww",
       "reminder": true
-    },
-    {
-      "text": "tzzz",
-      "day": "",
-      "reminder": false,
-      "id": 99548,
-      "test": 123
     }
   ]
 }

@@ -5,6 +5,7 @@
       <AddTask @add-task="addTask"/>
     </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task2="deleteTask" :tasks="tasks"/>
+    <router-view></router-view>
     <Footer />
   </div>
 
