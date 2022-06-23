@@ -17,3 +17,7 @@ creates a backend on port 5000
 
 http://localhost:5000/tasks
 returns a json-object with all the tasks written in db.json
+
+
+npm i vue-router@next
+to add a router

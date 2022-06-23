@@ -5,12 +5,14 @@
       <AddTask @add-task="addTask"/>
     </div>
     <Tasks @toggle-reminder="toggleReminder" @delete-task2="deleteTask" :tasks="tasks"/>
+    <Footer />
   </div>
 
 </template>
 
 <script>
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Tasks from "./components/Tasks";
 import AddTask from "./components/AddTask";
 
@@ -19,6 +21,7 @@ export default {
   components: {
     AddTask,
     Header,
+    Footer,
     Tasks
   },
   data() {
@@ -28,35 +31,82 @@ export default {
     }
   },
   methods: {
-    toggleAddTask () {
+    toggleAddTask() {
       this.showAddTask = !this.showAddTask
     },
-    addTask(task) {
-      this.tasks = [...this.tasks, task]
+    async addTask(task) {
+      const res = await fetch('api/tasks', {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(task)
+      })
+
+      const data = await res.json()
+
+      this.tasks = [...this.tasks, data]
     },
-    deleteTask(eventOrIdSameSame) {
+    async deleteTask(eventOrIdSameSame) {
+
       if (confirm("Are you sure you want to delete the Task?")) {
+
+        await fetch(`api/tasks/${eventOrIdSameSame}`, {
+          method: "DELETE"
+        })
+
+        this.tasks = await this.fetchTasks()
+
+        // before backend was implemented
+        /*
         this.tasks = this.tasks.filter((task) =>
                 task.id !== eventOrIdSameSame
             //  { return task.id !== eventOrIdSameSame }
         )
-        console.log("Deleted Task: " + eventOrIdSameSame);
+         */
       }
     },
-    toggleReminder(eventOrIdSameSame) {
+    async toggleReminder(eventOrIdSameSame) {
+
+      // changing the reminder from the backend
+      const taskToToggle = await this.fetchTask(eventOrIdSameSame.id)
+      taskToToggle.reminder = !taskToToggle.reminder
+
+      // changing the reminder from the frontend
+      // const up = {reminder: !eventOrIdSameSame.reminder}
+
+      // from Video
+      // const updateTask = {...taskToToggle, reminder: !taskToToggle.reminder}
+
+      await fetch(`api/tasks/${eventOrIdSameSame.id}`, {
+        // with method: 'PUT' you would need to send the whole content up, otherwise it deletes it
+        // with method: 'PATCH' you can only send the attribute to be changed or added
+        method: 'PUT',
+        headers: {
+          "Content-type": "application/json"
+        },
+        body: JSON.stringify(taskToToggle)
+        // body: JSON.stringify(up)
+        // body: JSON.stringify(updateTask)
+      })
+
+      this.tasks = await this.fetchTasks()
+
+      // from before backend was implemented
+      /*
       this.tasks = this.tasks.map((t) => {
             t.id === eventOrIdSameSame ? t.reminder = !t.reminder : t.reminder
             return t
           }
       )
+       */
 
-      // alternative from Video
+      // alternative from Video from before backend was implemented
       /*
       this.tasks = this.tasks.map((t) =>
           t.id === eventOrIdSameSame ? {...t, reminder: !t.reminder} : t
       )
       */
-      console.log("Toggle Reminder: " + eventOrIdSameSame);
     },
     async fetchTasks() {
       const res = await fetch("api/tasks")
@@ -64,7 +114,7 @@ export default {
       return data
     },
     async fetchTask(id) {
-      const res = await fetch(`api/${id}`)
+      const res = await fetch(`api/tasks/${id}`)
       const data = await res.json()
       return data
     }
