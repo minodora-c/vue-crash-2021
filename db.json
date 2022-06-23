@@ -23,6 +23,12 @@
       "text": "test",
       "day": "tomowwowww",
       "reminder": true
+    },
+    {
+      "text": "test",
+      "day": "noowwww",
+      "reminder": false,
+      "id": 99548
     }
   ]
 }
