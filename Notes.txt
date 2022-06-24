@@ -1,4 +1,7 @@
-Shell Commands:
+Shell Commands
+
+Quickstart
+https://vuejs.org/guide/quick-start.html#with-build-tools
 
 npm run serve
 to run it locally while working on it
